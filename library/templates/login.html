@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/library.css') }}">
+    <title>100. Yıl Kütüphanesi</title>
+</head>
+<body class="index">
+
+    <div class="wrapper">
+        <form action="/login" method="POST">
+            <h1>Giriş Yapınız <i class='bx bx-log-in' ></i></h1>
+            
+            <div class="input-box">
+                <input type="text" placeholder="Kullanıcı Adı" name="username">
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Şifre" name="password">
+            </div>
+            
+            <button type="submit">Giriş Yap</button>
+            <div class="remember-forget">
+                <label><input type="checkbox">Beni Hatırla</label>
+                <a href="#">Şifremi Unuttum</a>
+            </div>
+            <div class="register-link"><p> Bir hesap edinin! <a href="/registry">Kaydol</a></p></div><br>
+            {% if error %}
+            <p style="color: rgb(226, 57, 57); font-weight: bold; text-align: center;">{{ error }}</p>
+            {% endif %}
+          </form>
+    </div>
+    
+</body>
+</html>

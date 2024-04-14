@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/library.css') }}">
+    <title>100. Yıl Kütüphanesi</title>
+</head>
+<body>
+<section class="ana">
+    <aside class="sol-menu">
+        <nav>
+            <h3>Kitap Başlıkları</h3>
+            <ul>
+                <li><a href="{{ url_for('index')}}" class="active">Tüm Kitaplar</a></li>
+                <li><a href="{{ url_for('index', topic='Bilim Kurgu')}}">Bilim-Kurgu</a></li>
+                <li><a href="{{ url_for('index', topic='Tarih')}}">Tarih</a></li>
+                <li><a href="{{ url_for('index', topic='Yabancı Dil')}}">Yabancı Dil</a></li>
+                <li><a href="{{ url_for('index', topic='Teknoloji')}}">Teknoloji</a></li>
+                <li><a href="{{ url_for('index', topic='Fantastik')}}">Fantastik</a></li>
+                <li><a href="{{ url_for('index', topic='Sınav')}}">Sınav</a></li>
+                <li><a href="{{ url_for('index', topic='Hukuk')}}">Hukuk</a></li>
+                <li><a href="{{ url_for('index', topic='Felsefe')}}">Felsefe</a></li>
+                <li><a href="{{ url_for('index', topic='Edebiyat')}}">Edebiyat</a></li>
+                <li><a href="{{ url_for('index', topic='Çocuk')}}">Çocuk</a></li>
+                <li><a href="{{ url_for('index', topic='Sağlık')}}">Sağlık</a></li>
+            </ul>
+        </nav>
+    </aside>
+    
+    <section class="orta">
+        <header>
+            <div>
+                <img src="{{ url_for('static', filename='resimler/logo-social.png') }}">
+                <h1 class="slogan">100. Yıl Kütüphanesi'ne Hoş Geldiniz
+                </h1>
+                <div class="clearfix"></div>
+            </div>
+            <nav>
+                <div class="topnav">
+                    <a href="{{ url_for('index')}}">Ana Sayfa</a>
+                    <a href="about.php">Hakkımızda</a>
+                    <a href="#">Bağlantılar</a>
+                    <a href="#">Ödünç Kitap Al</a>
+                    <a href="#">Kitap Teslim Et</a>
+                    <div class="search-container">
+                    </div>
+                  </div>
+                <div class="clearfix"></div>
+            </nav>
+        </header>
+        <main>
+            <section>
+                {% if book_topic %}
+                    {% for kitap in kitaplar %}
+                    <article class="kutu">
+                        <img src="{{ url_for('static', filename=kitap[1]) }}">
+                        <h1>{{ kitap[0] }} - {{ kitap[3] }}</h1>
+                        <p>{{ kitap[4] }}</p>
+                        <div class="clearfix"></div>
+                    </article>
+                    {% endfor %}  
+                {% else %}
+                    {% for kitap in kitaplar %}
+                    <article class="kutu">
+                        <img src="{{ url_for('static', filename=kitap[1]) }}">
+                        <h1>{{ kitap[0] }} - {{ kitap[3] }}</h1>
+                        <p>{{ kitap[4] }}</p>
+                        <div class="clearfix"></div>
+                    </article>
+                    {% endfor %} 
+                {% endif %}
+             </section>
+        </main>
+
+    </section>
+    <aside class="sag-menu">
+        <nav>
+            <h3>{{ username.capitalize() }}</h3>
+            <ul>
+                <li><a href="#" class="active">Kitaplarım</a></li>
+                <li><a href="#">Ayarlar</a></li>
+                <li><a href="login">Çıkış</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <div class="clearfix"></div>
+    <footer>
+        <section>
+            <div>
+                <h4>KÜTÜPHANEMİZ</h4>
+                <p>Kütüphanemiz 1980 yılında hizmete açılmış olup, zengin bir içeriğe sahiptir. Her yaştan okuyucuya hitap ediyor olmanın haklı grurunu yaşatan siz değerli okuyucularımıza teşekkür ederiz..</p>
+            </div>
+            <div>
+                <H4>FAYDALI LİNKLER</H4>
+                Pricing<br>Settings<br>Orders<br>Help
+            </div>
+            <div>
+                <h4>BAĞLANTI</h4>
+                Kastamonu, Merkez 37012, TR<br>
+                Kastamonu Üniversitesi Yerleşkesi<br>
+                info@example.com<br>              
+                + 01 234 567 88<br>             
+                + 01 234 567 89
+            </div>
+            <p class="clearfix"></p>
+        </section>
+    </footer>
+</section>
+    
+</body>
+</html>
