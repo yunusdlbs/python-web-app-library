@@ -109,6 +109,13 @@ font-family: garamond;
 font-size: 1.6em;
 color:#003366;
     }
+
+.kutu a{
+    font-family: garamond;
+    font-size: 1.6em;
+    color:#003366;
+        }    
+
 .kutu p{
     text-align: justify;
 }
@@ -132,6 +139,17 @@ footer section div{
     overflow: hidden;
     background-color: #945002;
   }
+
+.alverbutton {
+    padding: 6px;
+    margin-right: 18px;
+    margin-left: 6px;
+    background: #b49903;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
   
   .topnav a {
     float: left;

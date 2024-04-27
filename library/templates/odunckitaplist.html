@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block orta %}
+    
+    <section>
+            <article class="kutu">
+                {% for books in borrowed_books %}
+                    <ol>{{ books }}</ol>
+                {% endfor %}
+                <p>JustTest</p>
+            </article>
+     </section>
+
+{% endblock %}

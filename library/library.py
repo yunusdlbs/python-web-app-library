@@ -1,6 +1,8 @@
 from crypt import methods
 from flask import Flask, render_template, url_for, request, redirect, session
 from flask_mysqldb import MySQL
+from datetime import datetime, timedelta
+import functions
 
 app = Flask(__name__)
 
@@ -8,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = 'mysecret'
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'admin'
-app.config['MYSQL_PASSWORD'] = '******'
+app.config['MYSQL_PASSWORD'] = '12345'
 app.config['MYSQL_DB'] = 'library'
 app.config['MYSQL_PORT'] = 9906
 app.config["MYSQL_UNIX_SOCKET"] = None
@@ -84,6 +86,43 @@ def registry():
         cur.close()
         return render_template('registry.html', valid='Tebrikler ! Kaydınız başarı ile yapıldı.')
     return render_template('registry.html')
+
+@app.route('/kitapdetay')
+def kitapdetay():
+    book_name = request.args.get('book_name')
+    cur = mysql.connection.cursor()
+    cur.execute(f"select * from books where book_name='{book_name}'")
+    book = cur.fetchone()
+    cur.close()
+    return render_template('kitapdetay.html', kitap_detay=book, username=session['username'])
+
+@app.route('/oduncal', methods=['GET','POST'])
+def oduncal():
+    book_name = request.form['book_name']
+    cur = mysql.connection.cursor()
+    cur.execute(f"select * from books where book_name='{book_name}'")
+    book = cur.fetchone()
+    cur.execute(f"select book_writer from books where book_name='{book_name}'")
+    book_writer = cur.fetchone()
+    username=session['username']
+    cur.execute(f"select email from users where username='{username}'")
+    user_mail = cur.fetchone()
+    borrowed_date = datetime.now().date()
+    due_date = borrowed_date + timedelta(days=10)
+    cur.execute(f"INSERT INTO borrowed (book_name, book_writer, who_borrowed, email, when_borrowed, due_time) VALUES (%s, %s, %s, %s, %s, %s)", (book_name, book_writer, username, user_mail, borrowed_date, due_date))
+    mysql.connection.commit()
+    cur.close()
+    #functions.borrow_mail(book_name)
+    return render_template('oduncal.html', kitap_detay=book, username=session['username'])
+
+@app.route('/odunckitaplist')
+def odunckitaplist():
+    cur = mysql.connection.cursor()
+    username=session['username']
+    cur.execute(f"select * from borrowed where who_borrowed='{username}'")
+    book = cur.fetchall()
+    cur.close()
+    return render_template('odunckitaplist.html',borrowed_books=book, username=session['username'])
 
 @app.route('/logout')
 def logout():

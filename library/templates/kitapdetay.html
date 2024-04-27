@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block orta %}
+    
+    <section>
+            <article class="kutu">
+                <img style="margin-bottom: 200px;"  src="{{ url_for('static', filename=kitap_detay[2]) }}">
+                <h1>{{ kitap_detay[1] }} - {{ kitap_detay[4] }}</h1>
+                <p>{{ kitap_detay[5] }}</p>
+                <ul>Konusu: {{ kitap_detay[3] }}</ul>
+                <ul>Sayfa Sayısı: {{ kitap_detay[6] }}</ul>
+                <ul>Kitap Miktarı: {{ kitap_detay[7] }}</ul>
+                <ul>Ödünç Alınan: {{ kitap_detay[8] }}</ul>
+                <ul>Mevcut: {{ kitap_detay[9] }}</ul>
+                <form action="/oduncal" method="POST">
+                    <input class="alverbutton" type="submit" value="OduncAl">
+                    <input type="hidden" name="book_name" value="{{ kitap_detay[1] }}">
+                </form>
+            </article>
+     </section>
+
+{% endblock %}

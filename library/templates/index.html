@@ -15,6 +15,7 @@
                 <li><a href="{{ url_for('index')}}" class="active">Tüm Kitaplar</a></li>
                 <li><a href="{{ url_for('index', topic='Bilim Kurgu')}}">Bilim-Kurgu</a></li>
                 <li><a href="{{ url_for('index', topic='Tarih')}}">Tarih</a></li>
+                <li><a href="{{ url_for('index', topic='Roman')}}">Roman</a></li>
                 <li><a href="{{ url_for('index', topic='Yabancı Dil')}}">Yabancı Dil</a></li>
                 <li><a href="{{ url_for('index', topic='Teknoloji')}}">Teknoloji</a></li>
                 <li><a href="{{ url_for('index', topic='Fantastik')}}">Fantastik</a></li>
@@ -39,10 +40,11 @@
             <nav>
                 <div class="topnav">
                     <a href="{{ url_for('index')}}">Ana Sayfa</a>
-                    <a href="about.php">Hakkımızda</a>
+                    <a href="about.html">Hakkımızda</a>
                     <a href="#">Bağlantılar</a>
-                    <a href="#">Ödünç Kitap Al</a>
-                    <a href="#">Kitap Teslim Et</a>
+                    {% if username=="test" %}
+                        <a style="color: rgb(252, 114, 2); border-radius: 10%;" href="#"><b>Kitap Ekle</b></a>
+                    {% endif %}
                     <div class="search-container">
                     </div>
                   </div>
@@ -50,12 +52,13 @@
             </nav>
         </header>
         <main>
+            {% block orta %}
             <section>
                 {% if book_topic %}
                     {% for kitap in kitaplar %}
                     <article class="kutu">
                         <img src="{{ url_for('static', filename=kitap[1]) }}">
-                        <h1>{{ kitap[0] }} - {{ kitap[3] }}</h1>
+                        <a href="{{ url_for('kitapdetay', book_name=kitap[0] )}}">{{ kitap[0] }} - {{ kitap[3] }}</a>
                         <p>{{ kitap[4] }}</p>
                         <div class="clearfix"></div>
                     </article>
@@ -64,21 +67,21 @@
                     {% for kitap in kitaplar %}
                     <article class="kutu">
                         <img src="{{ url_for('static', filename=kitap[1]) }}">
-                        <h1>{{ kitap[0] }} - {{ kitap[3] }}</h1>
+                        <a href="{{ url_for('kitapdetay', book_name=kitap[0] )}}">{{ kitap[0] }} - {{ kitap[3] }}</a>
                         <p>{{ kitap[4] }}</p>
                         <div class="clearfix"></div>
                     </article>
                     {% endfor %} 
                 {% endif %}
              </section>
+             {% endblock %}
         </main>
-
     </section>
     <aside class="sag-menu">
         <nav>
             <h3>{{ username.capitalize() }}</h3>
             <ul>
-                <li><a href="#" class="active">Kitaplarım</a></li>
+                <li><a href="{{ url_for('odunckitaplist')}}">Kitaplarım</a></li>
                 <li><a href="#">Ayarlar</a></li>
                 <li><a href="login">Çıkış</a></li>
             </ul>
