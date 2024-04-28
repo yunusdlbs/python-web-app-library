@@ -22,7 +22,7 @@
             <button type="submit">Giriş Yap</button>
             <div class="remember-forget">
                 <label><input type="checkbox">Beni Hatırla</label>
-                <a href="#">Şifremi Unuttum</a>
+                <a href="{{ url_for('forgetpass') }}">Şifremi Unuttum</a>
             </div>
             <div class="register-link"><p> Bir hesap edinin! <a href="/registry">Kaydol</a></p></div><br>
             {% if error %}

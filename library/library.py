@@ -2,6 +2,7 @@ from crypt import methods
 from flask import Flask, render_template, url_for, request, redirect, session
 from flask_mysqldb import MySQL
 from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 import functions
 
 app = Flask(__name__)
@@ -55,12 +56,6 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         pwd = request.form['password']
-        # user = db.get("user",{"username":username,"password":pwd})
-        # if user :
-        #     session['username'] = user[0]
-        #     return redirect(url_for('home'))
-        # else:
-        #     return render_template('login.html', error='Invalid username or password')
         cur = mysql.connection.cursor()
         cur.execute(f"select username, password from users where username ='{username}'")
         user = cur.fetchone()
@@ -78,6 +73,7 @@ def login():
 def registry():
     if request.method == 'POST':
         username = request.form['username']
+        #pwd = generate_password_hash(request.form['password'])
         pwd = request.form['password']
         email = request.form['email']
         cur = mysql.connection.cursor()
@@ -124,6 +120,29 @@ def odunckitaplist():
     cur.close()
     return render_template('odunckitaplist.html',borrowed_books=book, username=session['username'])
 
+@app.route('/forgetpass', methods=['GET','POST'])
+def forgetpass():
+    if request.method == 'POST':
+        user = request.form['username']
+        email = request.form['email']
+        cur = mysql.connection.cursor()
+        cur.execute(f"select username, email from users")
+        info = cur.fetchall()
+        cur.close()
+        print(info)
+        if (user, email) in info:
+            new_pass = functions.generate_pass()
+            #functions.change_pass(user, email, new_pass)
+            cur = mysql.connection.cursor()
+            cur.execute(f"UPDATE users SET password = '{new_pass}' WHERE username='{user}';")
+            mysql.connection.commit()
+            cur.close()
+            return render_template('forgetpass.html', valid='Tebrikler ! Şifreniz başarı ile değiştirildi Lutfen mail adresinizi kontrol ediniz.')
+        else: 
+            return render_template('forgetpass.html', error='Üzgünüz! Belirtilen mail veya kullanıcı adına rastlanılamadı.')
+    else:
+        return render_template('forgetpass.html')
+    
 @app.route('/logout')
 def logout():
     session.pop('username', None)
