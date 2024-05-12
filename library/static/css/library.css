@@ -108,13 +108,7 @@ header nav ul li a:hover{
 font-family: garamond;
 font-size: 1.6em;
 color:#003366;
-    }
-
-.kutu a{
-    font-family: garamond;
-    font-size: 1.6em;
-    color:#003366;
-        }    
+    } 
 
 .kutu p{
     text-align: justify;
@@ -290,4 +284,112 @@ form a {
 
 .register-link p a:hover {
     text-decoration: underline;
+}
+
+table {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: small;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+table a {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: small;
+    background-color: #5ba100 ;
+    padding: 10px;
+    display: block;
+    line-height: 1.2em;
+    text-decoration: none;
+    border-radius: 10px;
+    color: #000;
+    height: 15px;
+    border: 1px solid rgb(255, 255, 255);
+}
+  
+  table a:hover, button:hover {
+    background-color: #be6805;
+    border-radius: 5px;
+    color: #fff;
+  }
+  
+td a {
+    color: #000;
+}
+
+  th,
+  td {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 30px;
+    max-width: 160px;
+  }
+  
+  th {
+    background-color: #945002;
+    color: #fff;
+  }
+  
+  td {
+    color: #000;
+  }
+  
+  table form {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    border-radius: 5px;
+  }
+  
+  .tabloduzenle td {
+    height: 10%;
+    padding: 5px;
+  }
+  
+  /* textarea {
+    border-radius: 10px;
+    padding: 40px;
+    border: none;
+    outline: none;
+  } */
+
+.kitapekle table{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-left: 0%;
+    
+}
+
+.kitapekle img{
+    width:20px;
+    height: 10px;
+    margin: 10px;
+}
+.kitapekle h1{
+    font-family: garamond;
+    font-size: 1.6em;
+    color:#003366;
+    } 
+
+.kitapekle   th,
+td {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 25px;
+    width: 150%;
+    
+}
+
+.kitapekle p{
+    text-align: justify;
+}
+
+.kitapekle input {
+    max-width: 150px;
+}
+
+.lastline-table td {
+    border-radius: 0%;
+    border: none;
 }

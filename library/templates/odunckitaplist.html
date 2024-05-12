@@ -3,10 +3,28 @@
     
     <section>
             <article class="kutu">
-                {% for books in borrowed_books %}
-                    <ol>{{ books }}</ol>
+                <h1><center>Ödünç Aldığım Kitaplar</center></h1> 
+                <table>
+                  <tr>
+                    <th>Kitap Adı</th>
+                    <th>Kitap Yazarı</th>
+                    <th>Ödünç Alınan Tarih</th>
+                    <th>İade Edilmesi Gereken Tarih</th>
+                    <!-- <th>İade Durumu</th> -->
+                  </tr>
+                {% for book in borrowed_books %}  
+                  <tr>
+                    <td>{{ book[0] }}</td>
+                    <td>{{ book[1] }}</td>
+                    <td>{{ book[4] }}</td>
+                    <td>{{ book[5] }}</td>
+                    <td>
+                      <a href="{{ url_for('odunckitaplist', book=book[0], writer=book[1], who=book[2])}}"><b>İade Et</b></a>
+                    </td>
+                  </tr>
                 {% endfor %}
-                <p>JustTest</p>
+                </table>
+                    
             </article>
      </section>
 

@@ -43,7 +43,7 @@
                     <a href="about.html">Hakkımızda</a>
                     <a href="#">Bağlantılar</a>
                     {% if username=="test" %}
-                        <a style="color: rgb(252, 114, 2); border-radius: 10%;" href="#"><b>Kitap Ekle</b></a>
+                        <a style="color: rgb(252, 114, 2); border-radius: 10%;" href="{{ url_for('kitapekle')}}"><b>Kitap Ekle</b></a>
                     {% endif %}
                     <div class="search-container">
                     </div>

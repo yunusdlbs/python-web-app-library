@@ -100,25 +100,87 @@ def oduncal():
     book = cur.fetchone()
     cur.execute(f"select book_writer from books where book_name='{book_name}'")
     book_writer = cur.fetchone()
+    cur.execute(f"select borrowed from books where book_name='{book_name}'")
+    quantity = int((cur.fetchone())[0]) +1
+    cur.execute(f"select present from books where book_name='{book_name}'")
+    p_quantity = int((cur.fetchone())[0]) -1
+
+    cur.execute(f"select id from books where book_name='{book_name}'")
+    book_id = cur.fetchone()
     username=session['username']
     cur.execute(f"select email from users where username='{username}'")
     user_mail = cur.fetchone()
     borrowed_date = datetime.now().date()
     due_date = borrowed_date + timedelta(days=10)
+    cur.execute("update books set borrowed=%s where id=%s", (quantity, book_id) )
+    cur.execute("update books set present=%s where id=%s", (p_quantity, book_id) )
     cur.execute(f"INSERT INTO borrowed (book_name, book_writer, who_borrowed, email, when_borrowed, due_time) VALUES (%s, %s, %s, %s, %s, %s)", (book_name, book_writer, username, user_mail, borrowed_date, due_date))
     mysql.connection.commit()
+    cur.execute(f"select * from books where book_name='{book_name}'")
+    book = cur.fetchone()
     cur.close()
     #functions.borrow_mail(book_name)
     return render_template('oduncal.html', kitap_detay=book, username=session['username'])
 
 @app.route('/odunckitaplist')
 def odunckitaplist():
+    book = request.args.get('book')
+    writer = request.args.get('writer')
+    who = request.args.get('who')
+
+    if (book and writer and who):
+        cur = mysql.connection.cursor()
+        username=session['username']
+        cur.execute(f"select id from books where book_name='{book}'")
+        book_id = cur.fetchone()
+        cur.execute(f"select borrowed from books where book_name='{book}' AND book_writer='{writer}'")
+        b_quantity = int((cur.fetchone())[0]) -1
+        cur.execute(f"select present from books where book_name='{book}' AND book_writer='{writer}'")
+        p_quantity = int((cur.fetchone())[0]) +1
+        cur.execute("update books set present=%s where id=%s", (p_quantity, book_id) )
+        cur.execute("update books set borrowed=%s where id=%s", (b_quantity, book_id) )
+        cur.execute("delete from borrowed where book_name=%s AND book_writer=%s AND who_borrowed=%s",(book, writer, who))
+        mysql.connection.commit()
+        cur.close()
     cur = mysql.connection.cursor()
     username=session['username']
     cur.execute(f"select * from borrowed where who_borrowed='{username}'")
     book = cur.fetchall()
     cur.close()
     return render_template('odunckitaplist.html',borrowed_books=book, username=session['username'])
+
+@app.route('/kitapekle', methods=['GET','POST'])
+def kitapekle():
+    if request.method == 'POST':
+        cur = mysql.connection.cursor()
+        book = request.form['book_name']
+        writer = request.form['book_writer']
+        cur.execute(f"select book_name from books where book_name='{book}'")
+        book_in = cur.fetchone()
+        cur.execute(f"select book_writer from books where book_name='{book}'")
+        writer_in = cur.fetchone()
+
+        if (book==book_in and writer==writer_in):
+            cur.execute(f"select book_quantity from books where book_name='{book}'")
+            amount = int((cur.fetchone())[0]) +1
+            cur.execute("update books set book_quantity=%s where book_name=%s", (amount, book) )
+            cur.execute(f"select present from books where book_name='{book}'")
+            present = int((cur.fetchone())[0]) +1
+            cur.execute("update books set present=%s where book_name=%s", (present, book) )
+        else: 
+            #book = request.form['book_name']
+            photo = request.form['book_photo']
+            topic = request.form['book_topic']
+            #writer = request.form['book_writer']
+            summary = request.form['book_summary']
+            page = request.form['book_page']
+            quantity = request.form['book_quantity']
+            cur = mysql.connection.cursor()
+            cur.execute(f"insert into books (book_name, book_photo, book_topic, book_writer, book_summary, book_page, book_quantity, borrowed, present) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (book, photo, topic, writer, summary, page, quantity, "0", quantity))
+            mysql.connection.commit()
+            cur.close()
+            return render_template('kitapekle.html', username=session['username'], value='Kitap başarı ile kaydedildi !')
+    return render_template('kitapekle.html', username=session['username'])
 
 @app.route('/forgetpass', methods=['GET','POST'])
 def forgetpass():
