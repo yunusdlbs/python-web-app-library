@@ -42,14 +42,32 @@ def index():
         cur.execute(f"select book_name, book_photo, book_topic, book_writer, book_summary from books where book_topic='{topic}'")
         books = cur.fetchall()
         cur.close()
-        return render_template('index.html', kitaplar=books, username=session['username'])
+
+        page = request.args.get('sayfa', 1, type=int)
+        per_page = 3
+        start = (page - 1) * per_page
+        end = start + per_page
+        total_pages = (len(books) + per_page -1) // per_page
+        books_on_page = books[start:end]
+
+        return render_template('index.html', kitaplar=books_on_page, toplam_sayfa=total_pages, sayfa=page, username=session['username'])
+        #return render_template('index.html', kitaplar=books, username=session['username'])
 
     else: 
         cur = mysql.connection.cursor()
         cur.execute(f"select book_name, book_photo, book_topic, book_writer, book_summary from books")
         books = cur.fetchall()
         cur.close()
-        return render_template('index.html', kitaplar=books, username=session['username'])
+
+        page = request.args.get('sayfa', 1, type=int)
+        per_page = 3
+        start = (page - 1) * per_page
+        end = start + per_page
+        total_pages = (len(books) + per_page -1) // per_page
+        books_on_page = books[start:end]
+
+        return render_template('index.html', kitaplar=books_on_page, toplam_sayfa=total_pages, sayfa=page, username=session['username'])
+        #return render_template('index.html', kitaplar=books, username=session['username'])
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
