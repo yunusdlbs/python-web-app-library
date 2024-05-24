@@ -67,7 +67,7 @@
                         {% if sayfa > 1 %}
                             <a href="{{ url_for('index', sayfa=sayfa-1 )}}">Önceki Sayfa</a>
                         {% endif %}
-                            <span>{{sayfa}} - {{toplam_sayfa}} </span>
+                            <span>{{sayfa}}/{{toplam_sayfa}} </span>
                         {% if sayfa < toplam_sayfa %}
                             <a href="{{ url_for('index', sayfa=sayfa+1 )}}">Sonraki Sayfa</a>
                         {% endif %}
@@ -86,7 +86,7 @@
                             <a href="{{ url_for('index', sayfa=sayfa-1 )}}">Önceki Sayfa</a>
                         {% endif %}
                         {% if toplam_sayfa != 0 %}
-                            <span>{{sayfa}} - {{toplam_sayfa}} </span>
+                            <span>{{sayfa}}/{{toplam_sayfa}} </span>
                         {% endif %}
                         {% if sayfa < toplam_sayfa %}
                             <a href="{{ url_for('index', sayfa=sayfa+1 )}}">Sonraki Sayfa</a>

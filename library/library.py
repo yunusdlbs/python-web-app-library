@@ -44,7 +44,7 @@ def index():
         cur.close()
 
         page = request.args.get('sayfa', 1, type=int)
-        per_page = 3
+        per_page = 4
         start = (page - 1) * per_page
         end = start + per_page
         total_pages = (len(books) + per_page -1) // per_page
@@ -60,7 +60,7 @@ def index():
         cur.close()
 
         page = request.args.get('sayfa', 1, type=int)
-        per_page = 3
+        per_page = 4
         start = (page - 1) * per_page
         end = start + per_page
         total_pages = (len(books) + per_page -1) // per_page
