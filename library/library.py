@@ -50,7 +50,7 @@ def index():
         total_pages = (len(books) + per_page -1) // per_page
         books_on_page = books[start:end]
 
-        return render_template('index.html', kitaplar=books_on_page, toplam_sayfa=total_pages, sayfa=page, username=session['username'])
+        return render_template('index.html', kitaplar=books_on_page, toplam_sayfa=total_pages, topic=topic, sayfa=page, username=session['username'])
         #return render_template('index.html', kitaplar=books, username=session['username'])
 
     else: 

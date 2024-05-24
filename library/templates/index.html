@@ -54,7 +54,7 @@
         <main>
             {% block orta %}
             <section>
-                {% if book_topic %}
+                <!-- {% if book_topic %}
                     {% for kitap in kitaplar %}
                     <article class="kutu">
                         <img src="{{ url_for('static', filename=kitap[1]) }}">
@@ -72,7 +72,7 @@
                             <a href="{{ url_for('index', sayfa=sayfa+1 )}}">Sonraki Sayfa</a>
                         {% endif %}
                     </div><br>
-                {% else %}
+                {% else %} -->
                     {% for kitap in kitaplar %}
                     <article class="kutu">
                         <img src="{{ url_for('static', filename=kitap[1]) }}">
@@ -83,16 +83,16 @@
                     {% endfor %} 
                     <div class="pagination">
                         {% if sayfa > 1 %}
-                            <a href="{{ url_for('index', sayfa=sayfa-1 )}}">Önceki Sayfa</a>
+                            <a href="{{ url_for('index', sayfa=sayfa-1, topic=topic )}}">Önceki Sayfa</a>
                         {% endif %}
                         {% if toplam_sayfa != 0 %}
                             <span>{{sayfa}}/{{toplam_sayfa}} </span>
                         {% endif %}
                         {% if sayfa < toplam_sayfa %}
-                            <a href="{{ url_for('index', sayfa=sayfa+1 )}}">Sonraki Sayfa</a>
+                            <a href="{{ url_for('index', sayfa=sayfa+1, topic=topic )}}">Sonraki Sayfa</a>
                         {% endif %}
                     </div><br>
-                {% endif %}
+                <!-- {% endif %} -->
                 
              </section>
              {% endblock %}
