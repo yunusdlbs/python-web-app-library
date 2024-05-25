@@ -69,6 +69,26 @@ def index():
         return render_template('index.html', kitaplar=books_on_page, toplam_sayfa=total_pages, sayfa=page, username=session['username'])
         #return render_template('index.html', kitaplar=books, username=session['username'])
 
+@app.route('/kitapara')
+def kitapara():
+    kitap = request.args.get('kitap')
+    cur = mysql.connection.cursor()
+    cur.execute(f"select book_name, book_photo, book_topic, book_writer, book_summary from books where book_name like '%{kitap}%'  or book_writer like '%{kitap}%' ")
+    books = cur.fetchall()
+    cur.close()
+
+    page = request.args.get('sayfa', 1, type=int)
+    per_page = 4
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(books) + per_page -1) // per_page
+    books_on_page = books[start:end]
+
+    if (books_on_page): 
+        return render_template('kitapara.html', kitaplar=books_on_page, toplam_sayfa=total_pages, sayfa=page, username=session['username'])
+    else:
+        return render_template('kitapara.html', kitaplar=books_on_page, toplam_sayfa=total_pages, sayfa=page, username=session['username'], hata="Herhangi bir kayıt bulunamadı!")   
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -199,6 +219,16 @@ def kitapekle():
             cur.close()
             return render_template('kitapekle.html', username=session['username'], value='Kitap başarı ile kaydedildi !')
     return render_template('kitapekle.html', username=session['username'])
+
+@app.route('/kitapduzenle', methods=['GET','POST'])
+def kitapduzenle():
+    
+    return render_template('kitapduzenle.html', username=session['username'])
+
+@app.route('/kitapsil', methods=['GET','POST'])
+def kitapsil():
+    
+    return render_template('kitapsil.html', username=session['username'])
 
 @app.route('/forgetpass', methods=['GET','POST'])
 def forgetpass():

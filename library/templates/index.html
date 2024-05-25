@@ -13,7 +13,7 @@
             <h3>Kitap Başlıkları</h3>
             <ul>
                 <li><a href="{{ url_for('index')}}" class="active">Tüm Kitaplar</a></li>
-                <li><a href="{{ url_for('index', topic='Bilim Kurgu')}}">Bilim-Kurgu</a></li>
+                <li><a href="{{ url_for('index', topic='Bilim-Kurgu')}}">Bilim-Kurgu</a></li>
                 <li><a href="{{ url_for('index', topic='Tarih')}}">Tarih</a></li>
                 <li><a href="{{ url_for('index', topic='Roman')}}">Roman</a></li>
                 <li><a href="{{ url_for('index', topic='Yabancı Dil')}}">Yabancı Dil</a></li>
@@ -44,10 +44,14 @@
                     <a href="#">Bağlantılar</a>
                     {% if username=="test" %}
                         <a style="color: rgb(252, 114, 2); border-radius: 10%;" href="{{ url_for('kitapekle')}}"><b>Kitap Ekle</b></a>
+                        <a style="color: rgb(252, 114, 2); border-radius: 10%;" href="{{ url_for('kitapduzenle')}}"><b>Kitap Düzenle</b></a>
+                        <a style="color: rgb(252, 114, 2); border-radius: 10%;" href="{{ url_for('kitapsil')}}"><b>Kitap Sil</b></a>
                     {% endif %}
-                    <div class="search-container">
-                    </div>
-                  </div>
+                        <form class="search-container" action="{{ url_for('kitapara') }}" method="GET">
+                            <input type="search" placeholder="Kitap veya Yazar Adı Giriniz." name="kitap">
+                            <button>Ara</button>
+                        </form>
+                </div>
                 <div class="clearfix"></div>
             </nav>
         </header>

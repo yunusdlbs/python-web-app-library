@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{% block orta %}
+    
+    <section>
+            <article class="kitapekle">
+                <h1><center>Kitap Sil</center></h1> 
+                <table>
+                  <tr>
+                    <th>Kitap Adı</th>
+                    <th>Kitap Yazarı</th>
+                  </tr>
+                  <form action="kitapsil" method="POST">
+                  <tr class="lastline-table">                    
+                        <td><input type="text" name="book_name" ></td>
+                        <td><input type="text" name="book_writer" ></td>                                            
+                  </tr>
+                  <tr class="lastline-table">
+                    <td></td><td></td><td></td><td>
+                    <td><input type="submit" style="background-color: brown; color: white; float: right;" name="kaydet" value="Kitap Sil"></td>
+                  </tr>
+                  
+                </form>
+                </table>
+                {% if value %}
+                <p style="color: brown; "><b>{{ value }}</b></p>
+                {% endif %}
+            </article>
+     </section>
+
+{% endblock %}

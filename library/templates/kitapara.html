@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% block orta %}
+    
+    {% for kitap in kitaplar %}
+    <article class="kutu">
+        <img src="{{ url_for('static', filename=kitap[1]) }}">
+        <a href="{{ url_for('kitapdetay', book_name=kitap[0] )}}">{{ kitap[0] }} - {{ kitap[3] }}</a>
+        <p>{{ kitap[4] }}</p>
+        <div class="clearfix"></div>
+    </article>
+    {% endfor %} 
+    {% if hata %}
+            <br><br><p style="color: rgb(226, 57, 57); font-weight: bold; text-align: center;">{{ hata }}</p>
+    {% endif %}
+    <div class="pagination">
+        {% if sayfa > 1 %}
+            <a href="{{ url_for('index', sayfa=sayfa-1, topic=topic )}}">Önceki Sayfa</a>
+        {% endif %}
+        {% if toplam_sayfa != 0 %}
+            <span>{{sayfa}}/{{toplam_sayfa}} </span>
+        {% endif %}
+        {% if sayfa < toplam_sayfa %}
+            <a href="{{ url_for('index', sayfa=sayfa+1, topic=topic )}}">Sonraki Sayfa</a>
+        {% endif %}
+    </div><br>
+
+{% endblock %}

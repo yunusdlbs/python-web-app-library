@@ -144,7 +144,7 @@ footer section div{
     cursor: pointer;
     border-radius: 3px;
 }
-  
+
   .topnav a {
     float: left;
     display: block;
@@ -167,37 +167,37 @@ footer section div{
     border-radius: 7px;
   }
   
+.search-container {
+    display: flex;
+}
+
   .topnav .search-container {
     float: right;
+    height: 30px;
   }
   
-  .topnav input[type="text"] {
-    padding: 6px;
+  .search-container input {
+    padding: 8px;
     margin-top: 8px;
-    font-size: 14px;
+    font-size: 15px;
     border: none;
     border-radius: 5px;
-  }
-  
-  .topnav input[type="password"] {
-    padding: 6px;
-    margin-top: 8px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
+    padding-top: 5%;
+    height: 30px;
   }
   
   .topnav .search-container button {
     float: right;
     padding: 6px;
     margin-top: 8px;
-    margin-right: 18px;
+    margin-right: 8px;
     margin-left: 6px;
     background: #b49903;
-    font-size: 17px;
+    font-size: 12px;
     border: none;
     cursor: pointer;
     border-radius: 3px;
+    width: 60px;
   }
   
   .topnav .search-container button:hover {
@@ -377,7 +377,7 @@ td {
     border: 1px solid black;
     border-radius: 5px;
     height: 25px;
-    width: 150%;
+    
     
 }
 
