@@ -409,3 +409,37 @@ td {
     border-radius: 5px;
     background-color: #be6805;
 }
+
+.kitapduzenle table{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-left: 0%;
+    
+}
+
+.kitapduzenle img{
+    width:20px;
+    height: 10px;
+    margin: 10px;
+}
+.kitapduzenle h1{
+    font-family: garamond;
+    font-size: 1.6em;
+    color:#003366;
+    } 
+
+.kitapduzenle   th,
+td {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 25px;
+    
+    
+}
+
+.kitapduzenle p{
+    text-align: justify;
+}
+
+.kitapduzenle input {
+    max-width: 120px;
+}

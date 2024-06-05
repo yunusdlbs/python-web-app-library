@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 
 app.secret_key = 'mysecret'
-app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_HOST'] = '192.168.17.147'
 app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = '12345'
 app.config['MYSQL_DB'] = 'library'
@@ -29,10 +29,7 @@ mysql = MySQL()
 
 @app.route('/')
 def home():
-    if 'username' in session:
-        return render_template('index.html', username=session['username'])
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
     
 @app.route('/index')
 def index():
@@ -157,7 +154,7 @@ def oduncal():
     cur.execute(f"select * from books where book_name='{book_name}'")
     book = cur.fetchone()
     cur.close()
-    #functions.borrow_mail(book_name)
+    functions.borrow_mail(book_name)
     return render_template('oduncal.html', kitap_detay=book, username=session['username'])
 
 @app.route('/odunckitaplist')
@@ -223,13 +220,56 @@ def kitapekle():
 @app.route('/kitapduzenle', methods=['GET','POST'])
 def kitapduzenle():
     
+    if request.method == 'POST':
+        id = request.form['id']
+        book = request.form['book_name']
+        writer = request.form['book_writer']
+        photo = request.form['book_photo']
+        topic = request.form['book_topic']
+        summary = request.form['book_summary']
+        page = request.form['book_page']
+        quantity = request.form['book_quantity']
+        cur = mysql.connection.cursor()
+        if (not id):
+            return render_template('kitapduzenle.html', username=session['username'], value='Lütfen kitap ID belirtiniz!')
+        if (id and book):
+            cur.execute(f"update books set book_name='{book}' where id='{id}'")
+            mysql.connection.commit()
+        if (id and writer):
+            cur.execute(f"update books set book_writer='{writer}' where id='{id}'")
+            mysql.connection.commit()
+        if (id and photo):
+            cur.execute(f"update books set book_photo='{photo}' where id='{id}'")
+            mysql.connection.commit()
+        if (id and topic):
+            cur.execute(f"update books set book_topic='{topic}' where id='{id}'")
+            mysql.connection.commit()
+        if (id and summary):
+            cur.execute(f"update books set book_summary='{summary}' where id='{id}'")
+            mysql.connection.commit()
+        if (id and page):
+            cur.execute(f"update books set book_page='{page}' where id='{id}'")
+            mysql.connection.commit()
+        if (id and quantity):
+            cur.execute(f"update books set book_quantity='{quantity}' where id='{id}'")
+            mysql.connection.commit()
+        cur.close()
+        return render_template('kitapduzenle.html', username=session['username'], value='Kitap başarı ile düzenlendi !')
     return render_template('kitapduzenle.html', username=session['username'])
 
 @app.route('/kitapsil', methods=['GET','POST'])
 def kitapsil():
     
-    return render_template('kitapsil.html', username=session['username'])
-
+    if request.method == 'POST':
+        cur = mysql.connection.cursor()
+        book = request.form['book_name']
+        writer = request.form['book_writer']
+        cur.execute(f"delete from books where book_name='{book}' and book_writer='{writer}'")
+        mysql.connection.commit()
+        cur.close()
+        return render_template('kitapsil.html', value='Kitap başarı ile silindi !', username=session['username'])
+    else:
+        return render_template('kitapsil.html', username=session['username'])
 @app.route('/forgetpass', methods=['GET','POST'])
 def forgetpass():
     if request.method == 'POST':
@@ -242,7 +282,7 @@ def forgetpass():
         print(info)
         if (user, email) in info:
             new_pass = functions.generate_pass()
-            #functions.change_pass(user, email, new_pass)
+            functions.change_pass(user, email, new_pass)
             cur = mysql.connection.cursor()
             cur.execute(f"UPDATE users SET password = '{new_pass}' WHERE username='{user}';")
             mysql.connection.commit()
@@ -259,4 +299,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ =='__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
